@@ -4,6 +4,16 @@
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
+// returns a random integer 
+function randomInt (min, max) {
+    return Math.floor((Math.random() * (max - min)) + min)
+}
+
+// returns a random item within an array
+function randomItem (array) {
+    return array[randomInt (0, array.length)]
+}
+
 
 function generatePassword (){
 
@@ -64,7 +74,15 @@ function generatePassword (){
     }
 
 
+    var generatedPassword = ""
 
+    for (i = 0; i < passwordLength; i++){
+        var randomArray = randomItem (passwordCriteria);
+        var randomChar = randomItem (randomArray);
+        generatedPassword += randomChar;
+    }
+
+    return generatedPassword
 }
 
 
