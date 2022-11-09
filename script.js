@@ -1,26 +1,16 @@
-// Assignment code here
-
-
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
+// Add event listener to generate button (Whenever you "click" on the button, then the 'writePassword' function will run)
+generateBtn.addEventListener("click", writePassword);
 
-// returns a random integer 
-function randomInt (min, max) {
-    return Math.floor((Math.random() * (max - min)) + min)
-}
-
-// returns a random item within an array
-function randomItem (array) {
-    return array[randomInt (0, array.length)]
-}
 
 
 function generatePassword (){
 
     // window.prompt returns a string value
-    var userLengthInput = window.prompt("How many characters would you like your passowrd to have? You must have at least 8 characters and no more than 128 characters.");
-    // parseInt () converts a string to a number value (unless NaN)
-    var passwordLength = parseInt(userLengthInput);
+    var lengthInput = window.prompt("How many characters would you like your passowrd to have? You must have at least 8 characters and no more than 128 characters.");
+    // parseInt () converts a string value to a number value (unless NaN)
+    var passwordLength = parseInt(lengthInput);
 
     if (isNaN(passwordLength)) {
         window.alert("That's not a number!");
@@ -32,68 +22,71 @@ function generatePassword (){
         return;
     }
 
-    // series of prompts for password criteria
-    var userLowerInput = window.confirm ("Would you like at least one lower case character in your passowrd?");
-    var userUpperInput = window.confirm ("Would you like at least one upper case character in your passowrd?");
-    var userNumberInput = window.confirm ("Would you like at least one number in your passowrd?");
-    var userSymbolInput = window.confirm ("Would you like at least one special character in your passowrd?");
+    // Series of prompts for password criteria
+    var lowercaseInput = window.confirm ("Would you like at least one lower case character in your passowrd?");
+    var uppercaseInput = window.confirm ("Would you like at least one upper case character in your passowrd?");
+    var numberInput = window.confirm ("Would you like at least one number in your passowrd?");
+    var specialInput = window.confirm ("Would you like at least one special character in your passowrd?");
 
 
-    var lowerCaseArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    var upperCaseArray = [];
+    var lowercaseArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    var uppercaseArray = [];
     var numbersArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    var symbolArray = ["!", "@", "#", "$", "%", "^", "&", "*"];
-    for (i = 0; i < lowerCaseArray.length; i++){
-        upperCaseArray[i] = lowerCaseArray[i].toUpperCase();
+    var specialArray = ["!", "@", "#", "$", "%", "^", "&", "*"];
+    for (i = 0; i < lowercaseArray.length; i++){
+        uppercaseArray[i] = lowercaseArray[i].toUpperCase();
     }
 
 
-    // array that contains user input 
-    var passwordCriteria = []
+    // Empty array that will contain the users input 
+    var criterias = []
 
 
-    // if user clicks cancel, the variable is false
-    if (userLowerInput === true){
-        passwordCriteria.push(lowerCaseArray);
+    // Validating the user input
+    if (lowercaseInput){
+        criterias.push(lowercaseArray);
     }
 
-    if (userUpperInput === true){
-        passwordCriteria.push(upperCaseArray); 
+    if (uppercaseInput){
+        criterias.push(uppercaseArray); 
     }
 
-    if (userNumberInput === true){
-        passwordCriteria.push(numbersArray); 
+    if (numberInput){
+        criterias.push(numbersArray); 
     }
 
-    if (userSymbolInput === true){
-        passwordCriteria.push(symbolArray); 
+    if (specialInput){
+        criterias.push(specialArray); 
     }
 
-    if (passwordCriteria.length === 0){
-        passwordCriteria.push(lowerCaseArray);
+    if (criterias.length === 0){
+        criterias.push(lowercaseArray);
     }
 
-
+    // Empty string that will contain random charcters
     var generatedPassword = ""
 
+    // Returns a random item from an index
+    function randomItem (value) {
+        return value[Math.floor(Math.random() * value.length)];
+    }
+
+    // The 'generatedPassword' variable addes to itself a random character from a random array
     for (i = 0; i < passwordLength; i++){
-        var randomArray = randomItem (passwordCriteria);
+        var randomArray = randomItem (criterias);
         var randomChar = randomItem (randomArray);
         generatedPassword += randomChar;
     }
 
-    return generatedPassword
+    return generatedPassword;
 }
 
 
-// Write password to the #password input
+// The password is written to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-
-}
-
-// Add event listener to generate button (Whenever you "click" on the button, then the 'writePassword' function will run)
-generateBtn.addEventListener("click", writePassword);
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+  
+    passwordText.value = password;
+  
+  }
